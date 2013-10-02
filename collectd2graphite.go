@@ -123,13 +123,13 @@ func buildGraphiteEntries(centries []CollectdEntry) []GraphiteEntry {
 				entryName = fmt.Sprintf("%s.%s", entryName, graphiteFriendly(centry.PluginInstance))
 			}
 			if tinstance != "" {
-				tinstance = fmt.Sprintf("%s.", graphiteFriendly(tinstance))
+				tinstance = fmt.Sprintf(".%s", graphiteFriendly(tinstance))
 			}
 			gentry.Metric = fmt.Sprintf("collectd.%s.%s.%s%s.%s",
 				graphiteFriendly(centry.Host),
 				entryName,
-				tinstance,
 				centry.Type,
+				tinstance,
 				centry.DSNames[iv])
 			gentry.Timestamp = centry.Time
 			gentry.Value = centry.Values[iv]
