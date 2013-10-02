@@ -114,7 +114,7 @@ func buildGraphiteEntries(centries []CollectdEntry) []GraphiteEntry {
 				entryName = fmt.Sprintf("%s.%s", entryName, graphiteFriendly(centry.PluginInstance))
 			}
 			if tinstance != "" {
-				tinstance = fmt.Sprintf("%s.", tinstance)
+				tinstance = fmt.Sprintf("%s.", graphiteFriendly(tinstance))
 			}
 			gentry.Metric = fmt.Sprintf("collectd.%s.%s.%s%s.%s",
 				graphiteFriendly(centry.Host),
