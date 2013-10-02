@@ -53,6 +53,12 @@ func NewGraphite(endpoint string) *Graphite {
 	return g
 }
 
+func graphiteFriendly(s string) string {
+	s = strings.Replace(s, ".", "_", -1)
+	s = strings.Replace(s, " ", "_", -1)
+	return s
+}
+
 func (g *Graphite) getConnection() {
 	var (
 		err  error
@@ -105,13 +111,13 @@ func buildGraphiteEntries(centries []CollectdEntry) []GraphiteEntry {
 			tinstance := centry.TypeInstance
 			//plugin dependant (ex: cpu.0 or just interface)
 			if centry.PluginInstance != "" {
-				entryName = fmt.Sprintf("%s.%s", entryName, centry.PluginInstance)
+				entryName = fmt.Sprintf("%s.%s", entryName, graphiteFriendly(centry.PluginInstance))
 			}
 			if tinstance != "" {
 				tinstance = fmt.Sprintf("%s.", tinstance)
 			}
 			gentry.Metric = fmt.Sprintf("collectd.%s.%s.%s%s.%s",
-				strings.Replace(centry.Host, ".", "_", -1),
+				graphiteFriendly(centry.Host),
 				entryName,
 				tinstance,
 				centry.Type,
