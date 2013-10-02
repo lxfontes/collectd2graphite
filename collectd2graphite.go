@@ -54,8 +54,17 @@ func NewGraphite(endpoint string) *Graphite {
 }
 
 func graphiteFriendly(s string) string {
-	s = strings.Replace(s, ".", "_", -1)
-	s = strings.Replace(s, " ", "_", -1)
+	removeChars := []string{"+", "(", ")"}
+	convertChars := []string{" ", "."}
+
+	for _, c := range removeChars {
+		s = strings.Replace(s, c, "", -1)
+	}
+
+	for _, c := range convertChars {
+		s = strings.Replace(s, c, "_", -1)
+	}
+
 	return s
 }
 
